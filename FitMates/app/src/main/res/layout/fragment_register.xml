@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Register"
+                android:fontFamily="sans-serif-light"
                 android:textSize="32sp"
                 android:textAlignment="center"/>
 
@@ -151,10 +152,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tags_multi_auto_complete_text_view"
+                android:text="Kolarstwo, Koszykówka, Bieganie, Bilard, "
                 android:hint="Tags"
                 android:layout_marginBottom="8dp"/>
-
-
 
         </LinearLayout>
     </ScrollView>

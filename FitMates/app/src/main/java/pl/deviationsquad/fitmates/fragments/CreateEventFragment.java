@@ -2,12 +2,29 @@ package pl.deviationsquad.fitmates.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import pl.deviationsquad.fitmates.R;
+import pl.deviationsquad.fitmates.pojo.Event;
+import pl.deviationsquad.fitmates.pojo.Tag;
+import pl.deviationsquad.fitmates.pojo.User;
+import pl.deviationsquad.fitmates.retrofit.FitMatesService;
+import pl.deviationsquad.fitmates.retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +45,17 @@ public class CreateEventFragment extends Fragment {
     private String mParam2;
 
     private CreateEventFragmentListener listener;
+
+    private EditText eventTitleEditText;
+    private EditText eventDateEditText;
+    private EditText eventPlaceNameEditText;
+    private EditText eventAddressEditText;
+    private EditText eventCityEditText;
+    private EditText eventCountryEditText;
+    private AutoCompleteTextView eventTagAutoCompleteTextView;
+    private EditText maxAmountOfPeopleEditText;
+    private MaterialButton createEventButton;
+
 
     public CreateEventFragment() {
         // Required empty public constructor
@@ -63,8 +91,10 @@ public class CreateEventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+        findViews(view);
+        setupButtonsListeners();
+        return view;
     }
 
     @Override
@@ -84,6 +114,86 @@ public class CreateEventFragment extends Fragment {
         listener = null;
     }
 
+    private void findViews(View view) {
+        eventTitleEditText = view.findViewById(R.id.event_title_edit_text);
+        eventDateEditText = view.findViewById(R.id.event_date_edit_text);
+        eventPlaceNameEditText = view.findViewById(R.id.event_place_name_edit_text);
+        eventAddressEditText = view.findViewById(R.id.event_address_edit_text);
+        eventCityEditText = view.findViewById(R.id.event_city_edit_text);
+        eventCountryEditText = view.findViewById(R.id.event_country_edit_text);
+        eventTagAutoCompleteTextView = view.findViewById(R.id.event_tag_auto_complete_text_view);
+        maxAmountOfPeopleEditText = view.findViewById(R.id.max_amount_of_people_edit_text);
+        createEventButton = view.findViewById(R.id.create_event_button);
+    }
+
+    private void setupButtonsListeners() {
+        createEventButton.setOnClickListener(v -> {
+            if (listener.getUserTags() == null)
+                Log.i("fit", "tags null");
+            postNewEvent();
+        });
+    }
+
+    private void postNewEvent() {
+        FitMatesService service = RetrofitClient.createService(FitMatesService.class);
+        Call<Event> call = service.createEvent(FitMatesService.AUTH, createNewEvent());
+        call.enqueue(new Callback<Event>() {
+            @Override
+            public void onResponse(Call<Event> call, Response<Event> response) {
+                if (response.isSuccessful()) {
+                    Log.i("fit", "Event added");
+                    Toast.makeText(getContext(), "Event added", Toast.LENGTH_SHORT)
+                            .show();
+                    //clearAllEditTexts();
+                }
+                else
+                    Toast.makeText(getContext(), "Cannot add the event", Toast.LENGTH_SHORT)
+                            .show();
+            }
+
+            @Override
+            public void onFailure(Call<Event> call, Throwable throwable) {
+                Log.i("fit", throwable.getMessage());
+            }
+        });
+    }
+
+    private Event createNewEvent() {
+        Event event = new Event();
+        event.setTitle(eventTitleEditText.getText().toString());
+        event.setDate(eventDateEditText.getText().toString());
+        event.setCreatorId(listener.getUser().getId());
+        event.setPlaceName(eventPlaceNameEditText.getText().toString());
+        event.setAddress(eventAddressEditText.getText().toString());
+        event.setCity(eventCityEditText.getText().toString());
+        event.setCountry(eventCountryEditText.getText().toString());
+        event.setTagId(getTagId(eventTagAutoCompleteTextView.getText().toString()));
+        event.setMaxAmountOfPeople(Integer.parseInt(maxAmountOfPeopleEditText.getText().toString()));
+
+        Log.i("fit", new Gson().toJson(event));
+        return event;
+    }
+
+    private int getTagId(String tagName) {
+        int tagId = 0;
+        for (Tag tag : listener.getUserTags())
+            if (tag.getName().equals(tagName))
+                tagId = tag.getId();
+        return tagId;
+    }
+
+    private void clearAllEditTexts() {
+        eventTitleEditText.setText("");
+        eventDateEditText.setText("");
+        eventPlaceNameEditText.setText("");
+        eventAddressEditText.setText("");
+        eventCityEditText.setText("");
+        eventCountryEditText.setText("");
+        eventTagAutoCompleteTextView.setText("");
+        maxAmountOfPeopleEditText.setText("");
+        createEventButton.setText("");
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -95,6 +205,7 @@ public class CreateEventFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface CreateEventFragmentListener {
-
+        User getUser();
+        ArrayList<Tag> getUserTags();
     }
 }

@@ -118,8 +118,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void loginUser() {
-        listener.openMainPage();
-        /*
+        //listener.openMainPage();
+
         FitMatesService service = RetrofitClient.createService(FitMatesService.class);
         String auth = Credentials.basic(emailEditText.getText().toString(), passwordEditText.getText().toString());
         Call<User> call = service.loginUser(auth);
@@ -128,13 +128,15 @@ public class LoginFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     Log.i("fit", "User logged");
-                    Toast.makeText(getContext(), "User registered", Toast.LENGTH_SHORT)
+                    Toast.makeText(getContext(), "User logged", Toast.LENGTH_SHORT)
                             .show();
-                    listener.openMainPage();
+                    listener.saveUser(response.body());
+                    listener.saveUserTagsAndOpenMainPage(response.body());
+                    //listener.openMainPage();
                     Log.i("fit", new Gson().toJson(response.body()));
                 }
                 else {
-                    Toast.makeText(getContext(), "Registration failed", Toast.LENGTH_SHORT)
+                    Toast.makeText(getContext(), "Logging failed", Toast.LENGTH_SHORT)
                             .show();
                 }
             }
@@ -145,7 +147,7 @@ public class LoginFragment extends Fragment {
                 call.cancel();
             }
         });
-        */
+
     }
 
     /**
@@ -161,5 +163,7 @@ public class LoginFragment extends Fragment {
     public interface LoginFragmentListener {
         void loadFragment(Fragment fragment);
         void openMainPage();
+        void saveUser(User user);
+        void saveUserTagsAndOpenMainPage(User user);
     }
 }

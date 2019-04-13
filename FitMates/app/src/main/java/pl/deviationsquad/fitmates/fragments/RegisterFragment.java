@@ -2,6 +2,7 @@ package pl.deviationsquad.fitmates.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
@@ -64,6 +65,8 @@ public class RegisterFragment extends Fragment {
     private EditText tag4EditText;
     private MaterialButton registerButton;
     private MultiAutoCompleteTextView tagsMultiAutoCompleteTextView;
+
+    private ArrayList<Tag> tagsArrayList;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -160,10 +163,12 @@ public class RegisterFragment extends Fragment {
         profile.setCity(cityEditText.getText().toString());
         profile.setCountry(countryEditText.getText().toString());
         profile.setBio(bioEditText.getText().toString());
-        //profile.setTag1(tag1EditText.getText().toString());
-        //profile.setTag2(tag2EditText.getText().toString());
-        //profile.setTag3(tag3EditText.getText().toString());
-        //profile.setTag4(tag4EditText.getText().toString());
+        ArrayList<Tag> tags = retrieveTagsFromString(tagsMultiAutoCompleteTextView.getText().toString(), ',');
+        listener.saveUserTags(tags);
+        profile.setTag1(tags.get(0).getName());
+        profile.setTag2(tags.get(1).getName());
+        profile.setTag3(tags.get(2).getName());
+        profile.setTag4(tags.get(3).getName());
         user.setProfile(profile);
 
         Log.i("fit", new Gson().toJson(user));
@@ -181,6 +186,7 @@ public class RegisterFragment extends Fragment {
                     Log.i("fit", "User registered");
                     Toast.makeText(getContext(), "User registered", Toast.LENGTH_SHORT)
                             .show();
+                    listener.saveUser(response.body());
                     listener.openMainPage();
                 }
                 else
@@ -205,7 +211,9 @@ public class RegisterFragment extends Fragment {
             public void onResponse(Call<ArrayList<Tag>> call, Response<ArrayList<Tag>> response) {
                 if (response.isSuccessful()) {
                     Log.i("fit", "tags get");
-                    ArrayAdapter<Tag> adapter = new ArrayAdapter<Tag>(getContext(), android.R.layout.simple_dropdown_item_1line, response.body());
+                    tagsArrayList = response.body();
+                    Log.i("fit", new Gson().toJson(tagsArrayList));
+                    ArrayAdapter<Tag> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, tagsArrayList);
                     tagsMultiAutoCompleteTextView.setThreshold(1);
                     tagsMultiAutoCompleteTextView.setAdapter(adapter);
                 }
@@ -221,14 +229,26 @@ public class RegisterFragment extends Fragment {
         });
     }
 
-    private Tag[] retrieveTagsFromString(String tagsText, char separator) {
-        Tag[] tags = new Tag[4];
+    private ArrayList<Tag> retrieveTagsFromString(String tagsText, char separator) {
+        ArrayList<Tag> tags = new ArrayList<>();
         int firstSeparatorIndex = 0;
+        int tagId = 0;
+        String tagName = "";
+        Log.i("fit", tagsText);
         for (int i = 0; i < 4; i++) {
-            int secondSeparatorIndex = tagsText.indexOf(',');
-            tags[i] = new Tag(i, tagsText.substring(firstSeparatorIndex, secondSeparatorIndex+1));
-            firstSeparatorIndex = ++secondSeparatorIndex;
-            Log.i("fit", "," + tags[i].getName() + ",");
+            int secondSeparatorIndex = tagsText.indexOf(',', firstSeparatorIndex);
+            tagName = tagsText.substring(firstSeparatorIndex, secondSeparatorIndex);
+
+            for (Tag tag : tagsArrayList)
+                if (tag.getName().equals(tagName)) {
+                    tagId = tag.getId();
+                    break;
+                }
+
+            tags.add(new Tag(tagId, tagName));
+            secondSeparatorIndex += 2;
+            firstSeparatorIndex = secondSeparatorIndex;
+            Log.i("fit", "." + tags.get(i).getName() + ".");
         }
 
         return tags;
@@ -247,5 +267,7 @@ public class RegisterFragment extends Fragment {
     public interface RegisterFragmentListener {
         void loadFragment(Fragment fragment);
         void openMainPage();
+        void saveUser(User user);
+        void saveUserTags(ArrayList<Tag> userTags);
     }
 }

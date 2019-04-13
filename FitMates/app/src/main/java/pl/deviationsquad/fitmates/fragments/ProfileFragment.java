@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import pl.deviationsquad.fitmates.R;
+import pl.deviationsquad.fitmates.pojo.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +79,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findViews(view);
+        initUser(listener.getUser());
         setupButtonsListeners();
         return view;
     }
@@ -125,6 +127,11 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void initUser(User user) {
+        userNameTextView.setText(user.getFirstName() + " " + user.getLastName());
+        userCityTextView.setText(user.getProfile().getCity());
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -136,6 +143,6 @@ public class ProfileFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface ProfileFragmentListener {
-
+        User getUser();
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">FitMates</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shared_preferences_key">shared_preferences_key</string>
+    <string name="user_shared_preferences_key">user_key</string>
+    <string name="user_tags_shared_preferences_key">user_tags</string>
 </resources>
