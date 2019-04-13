@@ -4,10 +4,15 @@ import {
   USER_LOADING,
   USER_LOADED,
   GET_TAGS,
-  LOG_OUT
+  LOG_OUT,
+  GET_USER_DATA_FROM_LS
 } from "./types";
 import axios from "axios";
-
+export const getUserFromLS = () => {
+  return {
+    type: GET_USER_DATA_FROM_LS
+  };
+};
 export const addUser = user => dispatch => {
   dispatch({ type: USER_LOADING });
   axios

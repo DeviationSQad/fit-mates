@@ -7,25 +7,45 @@ import NavLink from "../components/NavLink";
 import Wrapper from "../components/Wrapper";
 import EventList from "../components/EventList";
 import ProfileInfo from "../components/ProfileInfo";
+import CreateEventModal from "../components/CreateEventModal";
 import { connect } from "react-redux";
-import { logOutUser } from "../actions/userActions";
+import { logOutUser, logInUser, getUserFromLS } from "../actions/userActions";
+import { changeInput } from "../actions/formActions";
 
 import { Col } from "reactstrap";
 class Profile extends Component {
+  state = {
+    modal: false
+  };
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  };
+  handleFindEvent = () => {};
+  componentDidMount() {
+    getUserFromLS();
+  }
   render() {
-    const { userInfo, logOutUser, history } = this.props;
+    const { userInfo, logOutUser, history, changeInput, tags } = this.props;
 
     return (
       <>
         <Navbar>
           <Logo name="FitMates" />
           <NavMenu>
-            <NavLink name="create-event">Create event</NavLink>
-            <NavLink name="find-event">Find events</NavLink>
+            <NavLink func={this.toggleModal}>Create event</NavLink>
+            <NavLink func={this.handleFindEvent}>Find events</NavLink>
             <LogOutButton text="Logout" func={logOutUser} history={history} />
           </NavMenu>
         </Navbar>
         <Wrapper>
+          <CreateEventModal
+            isOpen={this.state.modal}
+            toggle={this.toggleModal}
+            changeInput={changeInput}
+            tags={tags}
+          />
           <Col>
             <EventList />
           </Col>
@@ -41,9 +61,10 @@ class Profile extends Component {
   }
 }
 const mapStateToProps = state => ({
-  userInfo: state.users.loggedUser
+  userInfo: state.users.loggedUser,
+  tags: state.users.availableTags
 });
 export default connect(
   mapStateToProps,
-  { logOutUser }
+  { logOutUser, logInUser, getUserFromLS, changeInput }
 )(Profile);

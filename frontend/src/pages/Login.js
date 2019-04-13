@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Container } from "reactstrap";
 import { connect } from "react-redux";
 import { changeInput } from "../actions/formActions";
-import { logInUser } from "../actions/userActions";
+import { logInUser, getTags } from "../actions/userActions";
 import MainNavbar from "../components/MainNavbar";
 import { ScaleLoader } from "react-spinners";
+
 class Login extends Component {
+  componentDidMount() {
+    const { getTags } = this.props;
+    getTags();
+  }
   handleChange = (name, value) => {
     this.props.changeInput(name, value);
   };
@@ -76,5 +81,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { changeInput, logInUser }
+  { changeInput, logInUser, getTags }
 )(Login);

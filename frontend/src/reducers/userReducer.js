@@ -4,7 +4,8 @@ import {
   USER_LOADING,
   USER_LOADED,
   GET_TAGS,
-  LOG_OUT
+  LOG_OUT,
+  GET_USER_DATA_FROM_LS
 } from "../actions/types";
 const initialState = {
   loggedUser: {},
@@ -41,6 +42,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loggedUser: {}
+      };
+    }
+    case GET_USER_DATA_FROM_LS: {
+      return {
+        ...state,
+        loggedUser: { ...JSON.parse(localStorage.getItem("user")) }
       };
     }
     default:

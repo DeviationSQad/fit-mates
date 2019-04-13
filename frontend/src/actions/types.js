@@ -6,3 +6,5 @@ export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
 export const GET_TAGS = "GET_TAGS";
 export const LOG_OUT = "LOG_OUT";
+export const GET_USER_DATA_FROM_LS = "GET_USER_DATA_FROM_LS";
+export const CREATE_EVENT = "CREATE_EVENT";
