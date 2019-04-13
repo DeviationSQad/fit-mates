@@ -46,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Tag
         fields = ('id', 'tag_name')
@@ -56,3 +57,4 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = ('id', 'creator', 'tag', 'created', 'title', 'place_name',
                   'country', 'city', 'address', 'event_date', 'max_amount_of_people')
+
