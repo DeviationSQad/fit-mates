@@ -1,13 +1,15 @@
 import {
-  GET_USER,
   ADD_USER,
   LOG_IN,
   USER_LOADING,
-  USER_LOADED
+  USER_LOADED,
+  GET_TAGS,
+  LOG_OUT
 } from "../actions/types";
 const initialState = {
   loggedUser: {},
-  isLoading: false
+  isLoading: false,
+  availableTags: []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -21,11 +23,6 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false
       };
-    case GET_USER:
-      return {
-        ...state,
-        users: action.payload
-      };
     case ADD_USER:
     case LOG_IN:
       localStorage.setItem("user", JSON.stringify(action.payload));
@@ -33,6 +30,19 @@ export default (state = initialState, action) => {
         ...state,
         loggedUser: { ...action.payload }
       };
+    case GET_TAGS: {
+      return {
+        ...state,
+        availableTags: [...action.payload]
+      };
+    }
+    case LOG_OUT: {
+      localStorage.removeItem("user");
+      return {
+        ...state,
+        loggedUser: {}
+      };
+    }
     default:
       return state;
   }

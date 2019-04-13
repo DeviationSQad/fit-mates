@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Container } from "reactstrap";
+
 class ProfileForm extends Component {
   render() {
-    const { handleChange, handleSubmit } = this.props;
+    const { handleChange, handleSubmit, tags } = this.props;
     return (
       <Container>
         <Form
           onSubmit={e => {
             e.preventDefault();
             handleSubmit();
-
             e.target.reset();
           }}
         >
@@ -60,46 +60,62 @@ class ProfileForm extends Component {
           <FormGroup>
             <Label htmlFor="tag1">Tag 1</Label>
             <Input
-              type="text"
+              type="select"
               name="tag1"
               id="tag1"
               onChange={e => {
                 handleChange(e.target.name, e.target.value);
               }}
-            />
+            >
+              {tags.map(tag => {
+                return <option key={tag.id}>{tag.tag_name}</option>;
+              })}
+            </Input>
           </FormGroup>
           <FormGroup>
             <Label htmlFor="tag2">Tag 2</Label>
             <Input
-              type="type"
+              type="select"
               name="tag2"
               id="tag2"
               onChange={e => {
                 handleChange(e.target.name, e.target.value);
               }}
-            />
+            >
+              {tags.map(tag => {
+                return <option key={tag.id}>{tag.tag_name}</option>;
+              })}
+            </Input>
           </FormGroup>
           <FormGroup>
             <Label htmlFor="tag3">Tag 3</Label>
             <Input
-              type="text"
+              type="select"
               name="tag3"
               id="tag3"
               onChange={e => {
                 handleChange(e.target.name, e.target.value);
               }}
-            />
+            >
+              {tags.map(tag => {
+                return <option key={tag.id}>{tag.tag_name}</option>;
+              })}
+            </Input>
           </FormGroup>
           <FormGroup>
             <Label htmlFor="tag4">Tag 4</Label>
             <Input
-              type="text"
+              type="select"
               name="tag4"
               id="tag4"
               onChange={e => {
                 handleChange(e.target.name, e.target.value);
               }}
-            />
+            >
+              {tags.map(tag => {
+                return <option key={tag.id}>{tag.tag_name}</option>;
+              })}
+            </Input>
           </FormGroup>
           <input type="submit" value="Sign up" />
         </Form>

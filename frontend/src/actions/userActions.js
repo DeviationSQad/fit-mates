@@ -1,4 +1,11 @@
-import { ADD_USER, LOG_IN, USER_LOADING, USER_LOADED } from "./types";
+import {
+  ADD_USER,
+  LOG_IN,
+  USER_LOADING,
+  USER_LOADED,
+  GET_TAGS,
+  LOG_OUT
+} from "./types";
 import axios from "axios";
 
 export const addUser = user => dispatch => {
@@ -33,4 +40,22 @@ export const logInUser = (email, password) => dispatch => {
       dispatch({ type: USER_LOADED });
     })
     .catch(err => console.log(err));
+};
+
+export const getTags = () => dispatch => {
+  axios
+    .get("http://192.168.43.131:8080/api/tags/")
+    .then(res => {
+      dispatch({
+        type: GET_TAGS,
+        payload: res.data
+      });
+    })
+    .catch(err => console.log(err));
+};
+
+export const logOutUser = () => {
+  return {
+    type: LOG_OUT
+  };
 };

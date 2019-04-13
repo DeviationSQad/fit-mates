@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "../components/Button";
+import LogOutButton from "../components/LogOutButton";
 import Navbar from "../components/Navbar";
 import Logo from "../components/Logo";
 import NavMenu from "../components/NavMenu";
@@ -7,9 +7,14 @@ import NavLink from "../components/NavLink";
 import Wrapper from "../components/Wrapper";
 import EventList from "../components/EventList";
 import ProfileInfo from "../components/ProfileInfo";
+import { connect } from "react-redux";
+import { logOutUser } from "../actions/userActions";
+
 import { Col } from "reactstrap";
 class Profile extends Component {
   render() {
+    const { userInfo, logOutUser, history } = this.props;
+
     return (
       <>
         <Navbar>
@@ -17,7 +22,7 @@ class Profile extends Component {
           <NavMenu>
             <NavLink name="create-event">Create event</NavLink>
             <NavLink name="find-event">Find events</NavLink>
-            <Button text="Logout" />
+            <LogOutButton text="Logout" func={logOutUser} history={history} />
           </NavMenu>
         </Navbar>
         <Wrapper>
@@ -28,12 +33,17 @@ class Profile extends Component {
             <EventList />
           </Col>
           <Col>
-            <ProfileInfo />
+            <ProfileInfo userInfo={userInfo} />
           </Col>
         </Wrapper>
       </>
     );
   }
 }
-
-export default Profile;
+const mapStateToProps = state => ({
+  userInfo: state.users.loggedUser
+});
+export default connect(
+  mapStateToProps,
+  { logOutUser }
+)(Profile);

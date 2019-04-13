@@ -8,8 +8,17 @@ const ButtonStyled = styled.button`
   margin-left: 2rem;
   border: 0;
 `;
-const Button = ({ func, text }) => {
-  return <ButtonStyled>{text}</ButtonStyled>;
+const LogOutButton = ({ func, text, history }) => {
+  return (
+    <ButtonStyled
+      onClick={() => {
+        func();
+        history.push("/");
+      }}
+    >
+      {text}
+    </ButtonStyled>
+  );
 };
 
-export default Button;
+export default LogOutButton;

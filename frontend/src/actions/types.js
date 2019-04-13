@@ -4,3 +4,5 @@ export const CHANGE_INPUT = "CHANGE_INPUT";
 export const LOG_IN = "LOG_IN";
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
+export const GET_TAGS = "GET_TAGS";
+export const LOG_OUT = "LOG_OUT";
