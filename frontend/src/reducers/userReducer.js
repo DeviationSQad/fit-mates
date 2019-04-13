@@ -1,22 +1,34 @@
-import { GET_USER, ADD_USER, LOG_IN } from "../actions/types";
+import {
+  GET_USER,
+  ADD_USER,
+  LOG_IN,
+  USER_LOADING,
+  USER_LOADED
+} from "../actions/types";
 const initialState = {
-  users: [],
-  loggedUser: {}
+  loggedUser: {},
+  isLoading: false
 };
-
 export default (state = initialState, action) => {
   switch (action.type) {
+    case USER_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case USER_LOADED:
+      return {
+        ...state,
+        isLoading: false
+      };
     case GET_USER:
       return {
         ...state,
         users: action.payload
       };
     case ADD_USER:
-      return {
-        ...state,
-        users: [...state.users, action.payload]
-      };
     case LOG_IN:
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return {
         ...state,
         loggedUser: { ...action.payload }

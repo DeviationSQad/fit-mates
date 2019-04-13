@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUsers, addUser } from "../actions/userActions";
+import { addUser } from "../actions/userActions";
 import { Form, FormGroup, Label, Input, Container } from "reactstrap";
+
 class RegisterForm extends Component {
   render() {
     const { handleChange } = this.props;
@@ -62,5 +63,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getUsers, addUser }
+  { addUser }
 )(RegisterForm);

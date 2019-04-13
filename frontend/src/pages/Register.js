@@ -3,9 +3,10 @@ import RegisterForm from "../components/RegisterForm";
 import ProfileForm from "../components/ProfileForm";
 import { connect } from "react-redux";
 import { changeInput } from "../actions/formActions";
-import { addUser, getUsers } from "../actions/userActions";
-
+import { addUser } from "../actions/userActions";
+import MainNavbar from "../components/MainNavbar";
 import { Button } from "reactstrap";
+import { ScaleLoader } from "react-spinners";
 class Register extends Component {
   state = {
     step: 1
@@ -45,6 +46,7 @@ class Register extends Component {
       }
     };
     this.props.addUser(user);
+    this.props.history.push("/profile");
   };
   handleClick = () => {
     let { step } = this.state;
@@ -57,10 +59,19 @@ class Register extends Component {
 
   render() {
     const { step } = this.state;
+    const { loading } = this.props;
     const stepButtonText = step === 1 ? "Next" : "Back";
     return (
       <>
-        {step === 1 ? (
+        <MainNavbar />
+        {loading ? (
+          <ScaleLoader
+            sizeUnit={"px"}
+            size={150}
+            color={"#123abc"}
+            loading={this.props.loading}
+          />
+        ) : step === 1 ? (
           <RegisterForm handleChange={this.handleChange} />
         ) : (
           <ProfileForm
@@ -86,13 +97,13 @@ const mapStateToProps = state => ({
   tag1: state.form.tag1,
   tag2: state.form.tag2,
   tag3: state.form.bio3,
-  tag4: state.form.bio4
+  tag4: state.form.bio4,
+  loading: state.users.isLoading
 });
 export default connect(
   mapStateToProps,
   {
     changeInput,
-    addUser,
-    getUsers
+    addUser
   }
 )(Register);

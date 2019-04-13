@@ -7,24 +7,29 @@ import NavLink from "../components/NavLink";
 import Wrapper from "../components/Wrapper";
 import EventList from "../components/EventList";
 import ProfileInfo from "../components/ProfileInfo";
+import { Col } from "reactstrap";
 class Profile extends Component {
-  state = {};
   render() {
     return (
       <>
         <Navbar>
-          <Logo />
+          <Logo name="FitMates" />
           <NavMenu>
-            <NavLink />
-            <NavLink />
-            <NavLink />
-            <Button />
+            <NavLink name="create-event">Create event</NavLink>
+            <NavLink name="find-event">Find events</NavLink>
+            <Button text="Logout" />
           </NavMenu>
         </Navbar>
         <Wrapper>
-          <EventList />
-          <EventList />
-          <ProfileInfo />
+          <Col>
+            <EventList />
+          </Col>
+          <Col>
+            <EventList />
+          </Col>
+          <Col>
+            <ProfileInfo />
+          </Col>
         </Wrapper>
       </>
     );

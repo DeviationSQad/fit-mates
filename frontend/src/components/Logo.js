@@ -1,10 +1,14 @@
 import React from "react";
 import { NavbarBrand } from "reactstrap";
+import styled from "styled-components";
+const LogoStyled = styled(NavbarBrand)`
+  color: ${({ theme }) => theme.colors.primary};
+`;
 const Logo = ({ name }) => {
   return (
-    <NavbarBrand href="/profile" className="mr-auto">
+    <LogoStyled href="/profile" className="mr-auto">
       {name}
-    </NavbarBrand>
+    </LogoStyled>
   );
 };
 
