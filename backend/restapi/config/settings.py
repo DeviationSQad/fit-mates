@@ -25,7 +25,7 @@ SECRET_KEY = '^r5&tw=fx)_)df$gs^4kog7)n439_)-=5(dtdjq7-n%fxe6bvl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.20.10.5']
+ALLOWED_HOSTS = ['172.20.10.5', '192.168.43.131']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'rest_auth',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -125,4 +129,8 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'api.User'
 
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer',
+}
 
+CORS_ORIGIN_ALLOW_ALL = True

@@ -25,3 +25,26 @@ class UserProfile(models.Model):
     tag2 = models.CharField(max_length=50, blank=True, null=True)
     tag3 = models.CharField(max_length=50, blank=True, null=True)
     tag4 = models.CharField(max_length=50, blank=True, null=True)
+
+
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=100, unique=True)
+
+
+class Event(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    modificed = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=100)
+    place_name = models.CharField(max_length=100)
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=75)
+    address = models.CharField(max_length=100)
+    event_date = models.CharField(max_length=15)
+    max_amount_of_people = models.IntegerField(blank=True)
+
+
+class UserHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)

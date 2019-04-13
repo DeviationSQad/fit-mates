@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, UserProfile
+from .models import User, UserProfile, Event, Tag
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -43,3 +43,16 @@ class UserSerializer(serializers.ModelSerializer):
         profile.save()
 
         return instance
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('id', 'tag_name')
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('id', 'creator', 'created', 'title', 'place_name',
+                  'country', 'city', 'address', 'event_date', 'max_amount_of_people')
