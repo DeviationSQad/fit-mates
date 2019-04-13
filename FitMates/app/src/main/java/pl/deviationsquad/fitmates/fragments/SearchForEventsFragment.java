@@ -1,8 +1,8 @@
 package pl.deviationsquad.fitmates.fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +13,12 @@ import pl.deviationsquad.fitmates.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AuthorizationChoiceFragmentListener} interface
+ * {@link SearchForEventsFragmentListener} interface
  * to handle interaction events.
- * Use the {@link AuthorizationChoiceFragment#newInstance} factory method to
+ * Use the {@link SearchForEventsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AuthorizationChoiceFragment extends Fragment {
+public class SearchForEventsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,12 +28,9 @@ public class AuthorizationChoiceFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private AuthorizationChoiceFragmentListener listener;
+    private SearchForEventsFragmentListener listener;
 
-    private MaterialButton loginChoiceButton;
-    private MaterialButton registerChoiceButton;
-
-    public AuthorizationChoiceFragment() {
+    public SearchForEventsFragment() {
         // Required empty public constructor
     }
 
@@ -43,11 +40,11 @@ public class AuthorizationChoiceFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AuthorizationChoiceFragment.
+     * @return A new instance of fragment SearchForEventsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AuthorizationChoiceFragment newInstance(String param1, String param2) {
-        AuthorizationChoiceFragment fragment = new AuthorizationChoiceFragment();
+    public static SearchForEventsFragment newInstance(String param1, String param2) {
+        SearchForEventsFragment fragment = new SearchForEventsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,21 +62,19 @@ public class AuthorizationChoiceFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_authorization_choice, container, false);
-        findViews(view);
-        setupButtonsListeners();
-        return view;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search_for_events, container, false);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AuthorizationChoiceFragmentListener) {
-            listener = (AuthorizationChoiceFragmentListener) context;
+        if (context instanceof SearchForEventsFragmentListener) {
+            listener = (SearchForEventsFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement AuthorizationChoiceFragmentListener");
+                    + " must implement SearchForEventsFragmentListener");
         }
     }
 
@@ -87,20 +82,6 @@ public class AuthorizationChoiceFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
-    }
-
-    private void findViews(View view) {
-        loginChoiceButton = view.findViewById(R.id.login_choice_button);
-        registerChoiceButton = view.findViewById(R.id.register_choice_button);
-    }
-
-    private void setupButtonsListeners() {
-        loginChoiceButton.setOnClickListener(v ->
-            listener.loadFragment(new LoginFragment()));
-
-        registerChoiceButton.setOnClickListener(v ->
-                listener.loadFragment(new RegisterFragment()));
-
     }
 
     /**
@@ -113,7 +94,7 @@ public class AuthorizationChoiceFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface AuthorizationChoiceFragmentListener {
-        void loadFragment(Fragment fragment);
+    public interface SearchForEventsFragmentListener {
+
     }
 }

@@ -147,65 +147,14 @@
                     android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <MultiAutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
+                android:id="@+id/tags_multi_auto_complete_text_view"
+                android:hint="Tags"
+                android:layout_marginBottom="8dp"/>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/register_tag_1"
-                    android:text="Koszykówka"
-                    android:inputType="textCapSentences|textAutoCorrect"
-                    android:hint="Tag 1"
-                    android:maxLines="1"/>
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/register_tag_2"
-                    android:text="Bieganie"
-                    android:inputType="textCapSentences|textAutoCorrect"
-                    android:hint="Tag 2"
-                    android:maxLines="1"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/register_tag_3"
-                    android:text="Chodzenie"
-                    android:inputType="textCapSentences|textAutoCorrect"
-                    android:hint="Tag 3"
-                    android:maxLines="1"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/register_tag_4"
-                    android:text="Piłka nożna"
-                    android:inputType="textCapSentences"
-                    android:hint="Tag 4"
-                    android:maxLines="1"/>
-            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
     </ScrollView>

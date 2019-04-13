@@ -3,6 +3,7 @@ package pl.deviationsquad.fitmates.retrofit;
 import java.util.ArrayList;
 
 import okhttp3.Credentials;
+import pl.deviationsquad.fitmates.pojo.Tag;
 import pl.deviationsquad.fitmates.pojo.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,10 +20,19 @@ public interface FitMatesService {
     @Headers("Content-Type: application/json")
     Call<User> registerUser(@Body User user);
 
+    @GET("api/auth/user/")
+    @Headers("Content-Type: application/json")
+    Call<User> loginUser(@Header("Authorization") String auth);
+
+    @GET("api/tags/")
+    @Headers("Content-Type: application/json")
+    Call<ArrayList<Tag>> getAllTags();
+
+    /*
     @GET("api/users/")
     @Headers("Content-Type: application/json")
     Call<ArrayList<User>> getAllUsers(@Header("Authorization") String auth);
-
+    */
 
 
 }

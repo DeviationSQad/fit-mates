@@ -1,5 +1,6 @@
 package pl.deviationsquad.fitmates.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -49,5 +50,11 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
+    }
+
+    @Override
+    public void openMainPage() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

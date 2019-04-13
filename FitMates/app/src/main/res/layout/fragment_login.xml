@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/login_email_edit_text"
                 android:inputType="text"
+                android:text="48744305@gmail.com"
                 android:hint="Email"
                 android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
@@ -45,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/login_password_edit_text"
                 android:inputType="textPassword"
+                android:text="kamil"
                 android:hint="Password"
                 android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>

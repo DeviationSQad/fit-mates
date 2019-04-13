@@ -4,12 +4,26 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
+import okhttp3.Credentials;
 import pl.deviationsquad.fitmates.R;
+import pl.deviationsquad.fitmates.pojo.Tag;
+import pl.deviationsquad.fitmates.pojo.User;
+import pl.deviationsquad.fitmates.retrofit.FitMatesService;
+import pl.deviationsquad.fitmates.retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,13 +106,46 @@ public class LoginFragment extends Fragment {
     }
 
     private void findViews(View view) {
-        emailEditText = view.findViewById(R.id.register_email_edit_text);
-        passwordEditText = view.findViewById(R.id.register_password_edit_text);
+        emailEditText = view.findViewById(R.id.login_email_edit_text);
+        passwordEditText = view.findViewById(R.id.login_password_edit_text);
         loginButton = view.findViewById(R.id.login_button);
     }
 
     private void setupButtonsListeners() {
+        loginButton.setOnClickListener(v -> {
+            loginUser();
+        });
+    }
 
+    private void loginUser() {
+        listener.openMainPage();
+        /*
+        FitMatesService service = RetrofitClient.createService(FitMatesService.class);
+        String auth = Credentials.basic(emailEditText.getText().toString(), passwordEditText.getText().toString());
+        Call<User> call = service.loginUser(auth);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    Log.i("fit", "User logged");
+                    Toast.makeText(getContext(), "User registered", Toast.LENGTH_SHORT)
+                            .show();
+                    listener.openMainPage();
+                    Log.i("fit", new Gson().toJson(response.body()));
+                }
+                else {
+                    Toast.makeText(getContext(), "Registration failed", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable throwable) {
+                Log.i("fit", throwable.getMessage());
+                call.cancel();
+            }
+        });
+        */
     }
 
     /**
@@ -113,5 +160,6 @@ public class LoginFragment extends Fragment {
      */
     public interface LoginFragmentListener {
         void loadFragment(Fragment fragment);
+        void openMainPage();
     }
 }

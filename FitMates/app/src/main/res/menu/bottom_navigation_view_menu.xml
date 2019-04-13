@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_feed"
+        android:id="@+id/action_profile"
         android:enabled="true"
         android:icon="@drawable/profile_icon"
         android:title="Profile"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_create"
         android:enabled="true"
         android:icon="@drawable/add_icon"
         android:title="Create"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_profile"
+        android:id="@+id/action_search"
         android:enabled="true"
         android:icon="@drawable/search_icon"
         android:title="Search"

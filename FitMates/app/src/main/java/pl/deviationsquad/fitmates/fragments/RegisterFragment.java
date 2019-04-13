@@ -1,5 +1,6 @@
 package pl.deviationsquad.fitmates.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
@@ -8,16 +9,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import okhttp3.Credentials;
 import pl.deviationsquad.fitmates.R;
 import pl.deviationsquad.fitmates.pojo.Profile;
+import pl.deviationsquad.fitmates.pojo.Tag;
 import pl.deviationsquad.fitmates.pojo.User;
 import pl.deviationsquad.fitmates.retrofit.FitMatesService;
 import pl.deviationsquad.fitmates.retrofit.RetrofitClient;
@@ -58,6 +63,7 @@ public class RegisterFragment extends Fragment {
     private EditText tag3EditText;
     private EditText tag4EditText;
     private MaterialButton registerButton;
+    private MultiAutoCompleteTextView tagsMultiAutoCompleteTextView;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -94,6 +100,8 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         findViews(view);
+        tagsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        initTags();
         setupButtonsListeners();
         return view;
     }
@@ -124,11 +132,12 @@ public class RegisterFragment extends Fragment {
         cityEditText = view.findViewById(R.id.register_city_edit_text);
         countryEditText = view.findViewById(R.id.register_country_edit_text);
         bioEditText = view.findViewById(R.id.register_bio_edit_text);
-        tag1EditText = view.findViewById(R.id.register_tag_1);
-        tag2EditText = view.findViewById(R.id.register_tag_2);
-        tag3EditText = view.findViewById(R.id.register_tag_3);
-        tag4EditText = view.findViewById(R.id.register_tag_4);
+        //tag1EditText = view.findViewById(R.id.register_tag_1);
+        //tag2EditText = view.findViewById(R.id.register_tag_2);
+        //tag3EditText = view.findViewById(R.id.register_tag_3);
+        //tag4EditText = view.findViewById(R.id.register_tag_4);
         registerButton = view.findViewById(R.id.register_button);
+        tagsMultiAutoCompleteTextView = view.findViewById(R.id.tags_multi_auto_complete_text_view);
     }
 
     private void setupButtonsListeners() {
@@ -151,10 +160,10 @@ public class RegisterFragment extends Fragment {
         profile.setCity(cityEditText.getText().toString());
         profile.setCountry(countryEditText.getText().toString());
         profile.setBio(bioEditText.getText().toString());
-        profile.setTag1(tag1EditText.getText().toString());
-        profile.setTag2(tag2EditText.getText().toString());
-        profile.setTag3(tag3EditText.getText().toString());
-        profile.setTag4(tag4EditText.getText().toString());
+        //profile.setTag1(tag1EditText.getText().toString());
+        //profile.setTag2(tag2EditText.getText().toString());
+        //profile.setTag3(tag3EditText.getText().toString());
+        //profile.setTag4(tag4EditText.getText().toString());
         user.setProfile(profile);
 
         Log.i("fit", new Gson().toJson(user));
@@ -168,7 +177,15 @@ public class RegisterFragment extends Fragment {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.i("fit", "User registered");
+                if (response.isSuccessful()) {
+                    Log.i("fit", "User registered");
+                    Toast.makeText(getContext(), "User registered", Toast.LENGTH_SHORT)
+                            .show();
+                    listener.openMainPage();
+                }
+                else
+                    Toast.makeText(getContext(), "Registration failed", Toast.LENGTH_SHORT)
+                            .show();
             }
 
             @Override
@@ -177,6 +194,44 @@ public class RegisterFragment extends Fragment {
                 call.cancel();
             }
         });
+    }
+
+
+    private void initTags() {
+        FitMatesService service = RetrofitClient.createService(FitMatesService.class);
+        Call<ArrayList<Tag>> call = service.getAllTags();
+        call.enqueue(new Callback<ArrayList<Tag>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Tag>> call, Response<ArrayList<Tag>> response) {
+                if (response.isSuccessful()) {
+                    Log.i("fit", "tags get");
+                    ArrayAdapter<Tag> adapter = new ArrayAdapter<Tag>(getContext(), android.R.layout.simple_dropdown_item_1line, response.body());
+                    tagsMultiAutoCompleteTextView.setThreshold(1);
+                    tagsMultiAutoCompleteTextView.setAdapter(adapter);
+                }
+
+                else
+                    Log.i("fit", "tags not get");
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Tag>> call, Throwable throwable) {
+                Log.i("fit", throwable.getMessage());
+            }
+        });
+    }
+
+    private Tag[] retrieveTagsFromString(String tagsText, char separator) {
+        Tag[] tags = new Tag[4];
+        int firstSeparatorIndex = 0;
+        for (int i = 0; i < 4; i++) {
+            int secondSeparatorIndex = tagsText.indexOf(',');
+            tags[i] = new Tag(i, tagsText.substring(firstSeparatorIndex, secondSeparatorIndex+1));
+            firstSeparatorIndex = ++secondSeparatorIndex;
+            Log.i("fit", "," + tags[i].getName() + ",");
+        }
+
+        return tags;
     }
 
     /**
@@ -191,5 +246,6 @@ public class RegisterFragment extends Fragment {
      */
     public interface RegisterFragmentListener {
         void loadFragment(Fragment fragment);
+        void openMainPage();
     }
 }
