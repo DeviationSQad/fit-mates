@@ -54,5 +54,5 @@ class TagSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('id', 'creator', 'created', 'title', 'place_name',
+        fields = ('id', 'creator', 'tag', 'created', 'title', 'place_name',
                   'country', 'city', 'address', 'event_date', 'max_amount_of_people')
