@@ -48,6 +48,11 @@ class Event(models.Model):
     max_amount_of_people = models.IntegerField(blank=True)
 
 
+class EventsOfUser(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+
 class UserHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)

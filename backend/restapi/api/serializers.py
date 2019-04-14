@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, UserProfile, Event, Tag
+from .models import User, UserProfile, Event, Tag, EventsOfUser
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -58,3 +58,9 @@ class EventSerializer(serializers.ModelSerializer):
         fields = ('id', 'creator', 'tag', 'created', 'title', 'place_name',
                   'country', 'city', 'address', 'event_date', 'max_amount_of_people')
 
+
+class UserJoinToEventSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EventsOfUser
+        fields = ('id', 'user_id', 'event_id')

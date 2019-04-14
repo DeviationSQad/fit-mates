@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import AllowAny
-from .models import User, Tag, Event
-from .serializers import UserSerializer, TagSerializer, EventSerializer
+from .models import User, Tag, Event, EventsOfUser
+from .serializers import UserSerializer, TagSerializer, EventSerializer, UserJoinToEventSerializer
 from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
 
 from rest_framework.response import Response
@@ -46,7 +46,7 @@ class EventsViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsAdminUser]
+            permission_classes = [IsLoggedInUserOrAdmin]
         elif self.action == 'retrieve':
             permission_classes = [AllowAny]
         elif self.action == 'list' or self.action == 'destroy':
@@ -55,10 +55,26 @@ class EventsViewSet(viewsets.ModelViewSet):
 
 
 class EventsForUsers(viewsets.ViewSet):
-
+    # Looking for event by tags
     def list(self, request):
-        tag = request.data.get("tag")
-
+        tag = self.request.query_params.get('tag')
         queryset = Event.objects.filter(tag=Tag.objects.get(tag_name=tag))
         serializer = EventSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class ReturnEventsOfUser(viewsets.ViewSet):
+    # return events of user
+    def list(self, request):
+
+        event_IDs = EventsOfUser.objects.filter(user_id=request.query_params.get("user_id"))
+        queryset = []
+        for i in event_IDs:
+            queryset.append(Event.objects.get(pk=i.id))
+        serializer = EventSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class UserJoinToEvent(viewsets.ModelViewSet):
+    queryset = EventsOfUser.objects.all()
+    serializer_class = UserJoinToEventSerializer
