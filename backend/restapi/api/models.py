@@ -46,11 +46,13 @@ class Event(models.Model):
     address = models.CharField(max_length=100)
     event_date = models.CharField(max_length=15)
     max_amount_of_people = models.IntegerField(blank=True)
+    is_active = models.BooleanField(default=True)
 
 
 class EventsOfUser(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    is_taking_part = models.BooleanField(default=True)
 
 
 class UserHistory(models.Model):
