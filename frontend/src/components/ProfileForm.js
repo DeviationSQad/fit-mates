@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, FormGroup, Label, Input, Container } from "reactstrap";
+import { Form, FormGroup, Label, Input, Container, Button } from "reactstrap";
 
 class ProfileForm extends Component {
   render() {
@@ -117,7 +117,7 @@ class ProfileForm extends Component {
               })}
             </Input>
           </FormGroup>
-          <input type="submit" value="Sign up" />
+          <Button color="primary">Sign Up</Button>
         </Form>
       </Container>
     );

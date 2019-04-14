@@ -1,17 +1,17 @@
-import { CREATE_EVENT } from "../actions/types";
+import { FIND_EVENT } from "../actions/types";
 
 const initialState = {
-  events: {}
+  foundEvents: []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_EVENT:
+    case FIND_EVENT:
       return {
         ...state,
-        events: { ...action.payload }
+        foundEvents: [...state.foundEvents, action.payload]
       };
     default:
-      return { state };
+      return state;
   }
 };

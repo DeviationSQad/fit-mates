@@ -2,17 +2,29 @@ import React, { Component } from "react";
 import RegisterForm from "../components/RegisterForm";
 import ProfileForm from "../components/ProfileForm";
 import { connect } from "react-redux";
-import { changeInput } from "../actions/formActions";
-import { addUser, getTags } from "../actions/userActions";
+import { addUser, getTags, checkIfLogged } from "../actions/userActions";
 import MainNavbar from "../components/MainNavbar";
-import { Button } from "reactstrap";
+import { Button, Container } from "reactstrap";
 import { ScaleLoader } from "react-spinners";
+
 class Register extends Component {
   state = {
-    step: 1
+    step: 1,
+    email: "",
+    first_name: "",
+    last_name: "",
+    password: "",
+    dob: "",
+    city: "",
+    country: "",
+    bio: "",
+    tag1: "",
+    tag2: "",
+    tag3: "",
+    tag4: ""
   };
   handleChange = (name, value) => {
-    this.props.changeInput(name, value);
+    this.setState({ [name]: value });
   };
   handleSubmit = () => {
     const {
@@ -28,7 +40,7 @@ class Register extends Component {
       tag2,
       tag3,
       tag4
-    } = this.props;
+    } = this.state;
     const user = {
       email,
       first_name,
@@ -59,8 +71,13 @@ class Register extends Component {
     }
   };
   componentDidMount() {
-    const { getTags } = this.props;
+    const { getTags, checkIfLogged, history } = this.props;
     getTags();
+    if (localStorage.getItem("user")) {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      checkIfLogged(userInfo);
+      history.push("/profile");
+    }
   }
   render() {
     const { step } = this.state;
@@ -69,48 +86,42 @@ class Register extends Component {
     return (
       <>
         <MainNavbar />
-        {loading ? (
-          <ScaleLoader
-            sizeUnit={"px"}
-            size={150}
-            color={"#123abc"}
-            loading={this.props.loading}
-          />
-        ) : step === 1 ? (
-          <RegisterForm handleChange={this.handleChange} />
-        ) : (
-          <ProfileForm
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-            tags={tags}
-          />
-        )}
-        <Button onClick={this.handleClick}>{stepButtonText}</Button>
+        <Container>
+          {loading ? (
+            <ScaleLoader
+              sizeUnit={"px"}
+              size={150}
+              color={"#123abc"}
+              loading={this.props.loading}
+            />
+          ) : step === 1 ? (
+            <RegisterForm handleChange={this.handleChange} />
+          ) : (
+            <ProfileForm
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              tags={tags}
+            />
+          )}
+          {step === 1 ? (
+            <Button color="primary" onClick={this.handleClick}>
+              Next
+            </Button>
+          ) : null}
+        </Container>
       </>
     );
   }
 }
 const mapStateToProps = state => ({
-  email: state.form.email,
-  first_name: state.form.first_name,
-  last_name: state.form.last_name,
-  password: state.form.password,
-  dob: state.form.dob,
-  city: state.form.city,
-  country: state.form.country,
-  bio: state.form.bio,
-  tag1: state.form.tag1,
-  tag2: state.form.tag2,
-  tag3: state.form.bio3,
-  tag4: state.form.bio4,
   loading: state.users.isLoading,
   tags: state.users.availableTags
 });
 export default connect(
   mapStateToProps,
   {
-    changeInput,
     addUser,
-    getTags
+    getTags,
+    checkIfLogged
   }
 )(Register);

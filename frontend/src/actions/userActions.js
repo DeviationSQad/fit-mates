@@ -5,14 +5,9 @@ import {
   USER_LOADED,
   GET_TAGS,
   LOG_OUT,
-  GET_USER_DATA_FROM_LS
+  CHECK_IF_LOGGED
 } from "./types";
 import axios from "axios";
-export const getUserFromLS = () => {
-  return {
-    type: GET_USER_DATA_FROM_LS
-  };
-};
 export const addUser = user => dispatch => {
   dispatch({ type: USER_LOADING });
   axios
@@ -37,7 +32,6 @@ export const logInUser = (email, password) => dispatch => {
       }
     })
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: LOG_IN,
         payload: res.data
@@ -62,5 +56,11 @@ export const getTags = () => dispatch => {
 export const logOutUser = () => {
   return {
     type: LOG_OUT
+  };
+};
+export const checkIfLogged = userInfo => {
+  return {
+    type: CHECK_IF_LOGGED,
+    payload: userInfo
   };
 };

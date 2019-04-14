@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import { Jumbotron, Container } from "reactstrap";
 import MainNavbar from "../components/MainNavbar";
+import { connect } from "react-redux";
+import { checkIfLogged } from "../actions/userActions";
 class Home extends Component {
-  state = {};
+  componentDidMount() {
+    if (localStorage.getItem("user")) {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      this.props.checkIfLogged(userInfo);
+      this.props.history.push("/profile");
+    }
+  }
   render() {
     return (
       <div>
@@ -18,4 +26,7 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connect(
+  null,
+  { checkIfLogged }
+)(Home);

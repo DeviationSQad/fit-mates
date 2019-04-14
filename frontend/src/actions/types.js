@@ -1,6 +1,5 @@
 export const GET_USER = "GET_USERS";
 export const ADD_USER = "ADD_USER";
-export const CHANGE_INPUT = "CHANGE_INPUT";
 export const LOG_IN = "LOG_IN";
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
@@ -8,3 +7,5 @@ export const GET_TAGS = "GET_TAGS";
 export const LOG_OUT = "LOG_OUT";
 export const GET_USER_DATA_FROM_LS = "GET_USER_DATA_FROM_LS";
 export const CREATE_EVENT = "CREATE_EVENT";
+export const FIND_EVENT = "FIND_EVENT";
+export const CHECK_IF_LOGGED = "CHECK_IF_LOGGED ";

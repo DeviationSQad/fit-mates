@@ -5,7 +5,7 @@ import {
   USER_LOADED,
   GET_TAGS,
   LOG_OUT,
-  GET_USER_DATA_FROM_LS
+  CHECK_IF_LOGGED
 } from "../actions/types";
 const initialState = {
   loggedUser: {},
@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
       localStorage.setItem("user", JSON.stringify(action.payload));
       return {
         ...state,
-        loggedUser: { ...action.payload }
+        loggedUser: action.payload
       };
     case GET_TAGS: {
       return {
@@ -44,12 +44,12 @@ export default (state = initialState, action) => {
         loggedUser: {}
       };
     }
-    case GET_USER_DATA_FROM_LS: {
+    case CHECK_IF_LOGGED:
       return {
         ...state,
-        loggedUser: { ...JSON.parse(localStorage.getItem("user")) }
+        loggedUser: action.payload
       };
-    }
+
     default:
       return state;
   }

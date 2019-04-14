@@ -41,9 +41,10 @@ class CreateEventModal extends Component {
     } = this.state;
     const { tags, userInfo, createEvent, toggle } = this.props;
     const selectedTag = tags.filter(tagItem => tagItem.tag_name === tag);
-    const selectedTagID = selectedTag[0].id;
+    const selectedTagID = parseInt(selectedTag[0].id);
     const userID = userInfo.id;
-    const toNumber = parseInt(max_amount_of_people);
+    const amountToNumber = parseInt(max_amount_of_people);
+
     const event = {
       tag: selectedTagID,
       title,
@@ -52,9 +53,10 @@ class CreateEventModal extends Component {
       city,
       address,
       event_date,
-      max_amount_of_people: toNumber,
+      max_amount_of_people: amountToNumber,
       creator: userID
     };
+    console.log(selectedTag);
     createEvent(event);
     toggle();
   };

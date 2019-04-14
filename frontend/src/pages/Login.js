@@ -1,23 +1,32 @@
 import React, { Component } from "react";
-import { Form, FormGroup, Label, Input, Container } from "reactstrap";
+import { Form, FormGroup, Label, Input, Container, Button } from "reactstrap";
 import { connect } from "react-redux";
-import { changeInput } from "../actions/formActions";
-import { logInUser, getTags } from "../actions/userActions";
+import { logInUser, getTags, checkIfLogged } from "../actions/userActions";
 import MainNavbar from "../components/MainNavbar";
 import { ScaleLoader } from "react-spinners";
 
 class Login extends Component {
+  state = {
+    email: "",
+    password: ""
+  };
   componentDidMount() {
-    const { getTags } = this.props;
+    const { getTags, checkIfLogged } = this.props;
     getTags();
+    if (localStorage.getItem("user")) {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      checkIfLogged(userInfo);
+      this.props.history.push("/profile");
+    }
   }
   handleChange = (name, value) => {
-    this.props.changeInput(name, value);
+    this.setState({ [name]: value });
   };
   handleSubmit = e => {
     const { loading } = this.props;
     e.preventDefault();
-    const { email, password, logInUser } = this.props;
+    const { logInUser } = this.props;
+    const { email, password } = this.state;
     const user = {
       email,
       password
@@ -66,7 +75,7 @@ class Login extends Component {
                   }}
                 />
               </FormGroup>
-              <input type="submit" value="Log in" />
+              <Button color="primary">Login</Button>
             </Form>
           )}
         </Container>
@@ -75,11 +84,9 @@ class Login extends Component {
   }
 }
 const mapStateToProps = state => ({
-  email: state.form.email,
-  password: state.form.password,
   loading: state.users.isLoading
 });
 export default connect(
   mapStateToProps,
-  { changeInput, logInUser, getTags }
+  { logInUser, getTags, checkIfLogged }
 )(Login);
