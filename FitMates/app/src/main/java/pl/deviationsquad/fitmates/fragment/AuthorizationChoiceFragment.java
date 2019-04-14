@@ -1,4 +1,4 @@
-package pl.deviationsquad.fitmates.fragments;
+package pl.deviationsquad.fitmates.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

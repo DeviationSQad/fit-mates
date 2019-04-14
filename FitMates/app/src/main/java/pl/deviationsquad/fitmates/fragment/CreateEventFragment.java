@@ -1,4 +1,4 @@
-package pl.deviationsquad.fitmates.fragments;
+package pl.deviationsquad.fitmates.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -56,6 +57,8 @@ public class CreateEventFragment extends Fragment {
     private EditText maxAmountOfPeopleEditText;
     private MaterialButton createEventButton;
 
+    private ArrayList<Tag> tagsArrayList;
+
 
     public CreateEventFragment() {
         // Required empty public constructor
@@ -93,6 +96,7 @@ public class CreateEventFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_event, container, false);
         findViews(view);
+        initTags();
         setupButtonsListeners();
         return view;
     }
@@ -130,7 +134,40 @@ public class CreateEventFragment extends Fragment {
         createEventButton.setOnClickListener(v -> {
             if (listener.getUserTags() == null)
                 Log.i("fit", "tags null");
-            postNewEvent();
+
+            if (!areEventFieldsEmpty())
+                postNewEvent();
+            else
+                Toast.makeText(getContext(), "Event fields cannot be empty", Toast.LENGTH_SHORT)
+                        .show();
+        });
+    }
+
+    private boolean areEventFieldsEmpty() {
+        return (eventTitleEditText.getText().toString().isEmpty() || eventDateEditText.getText().toString().isEmpty() || eventPlaceNameEditText.getText().toString().isEmpty() || eventAddressEditText.getText().toString().isEmpty() || eventCityEditText.getText().toString().isEmpty() || eventCountryEditText.getText().toString().isEmpty() || maxAmountOfPeopleEditText.getText().toString().isEmpty());
+    }
+
+    private void initTags() {
+        FitMatesService service = RetrofitClient.createService(FitMatesService.class);
+        Call<ArrayList<Tag>> call = service.getAllTags();
+        call.enqueue(new Callback<ArrayList<Tag>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Tag>> call, Response<ArrayList<Tag>> response) {
+                if (response.isSuccessful()) {
+                    Log.i("fit", "tags get");
+                    tagsArrayList = response.body();
+                    Log.i("fit", new Gson().toJson(tagsArrayList));
+                    ArrayAdapter<Tag> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, tagsArrayList);
+                    eventTagAutoCompleteTextView.setThreshold(1);
+                    eventTagAutoCompleteTextView.setAdapter(adapter);
+                } else
+                    Log.i("fit", "tags not get");
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Tag>> call, Throwable throwable) {
+                Log.i("fit", throwable.getMessage());
+            }
         });
     }
 
@@ -154,6 +191,7 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onFailure(Call<Event> call, Throwable throwable) {
                 Log.i("fit", throwable.getMessage());
+                call.cancel();
             }
         });
     }
@@ -176,7 +214,7 @@ public class CreateEventFragment extends Fragment {
 
     private int getTagId(String tagName) {
         int tagId = 0;
-        for (Tag tag : listener.getUserTags())
+        for (Tag tag : listener.getAllTags())
             if (tag.getName().equals(tagName))
                 tagId = tag.getId();
         return tagId;
@@ -207,5 +245,6 @@ public class CreateEventFragment extends Fragment {
     public interface CreateEventFragmentListener {
         User getUser();
         ArrayList<Tag> getUserTags();
+        ArrayList<Tag> getAllTags();
     }
 }

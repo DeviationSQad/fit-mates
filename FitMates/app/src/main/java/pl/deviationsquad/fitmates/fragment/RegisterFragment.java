@@ -1,8 +1,6 @@
-package pl.deviationsquad.fitmates.fragments;
+package pl.deviationsquad.fitmates.fragment;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
@@ -20,7 +18,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Random;
 
-import okhttp3.Credentials;
 import pl.deviationsquad.fitmates.R;
 import pl.deviationsquad.fitmates.pojo.Profile;
 import pl.deviationsquad.fitmates.pojo.Tag;
@@ -59,10 +56,6 @@ public class RegisterFragment extends Fragment {
     private EditText cityEditText;
     private EditText countryEditText;
     private EditText bioEditText;
-    private EditText tag1EditText;
-    private EditText tag2EditText;
-    private EditText tag3EditText;
-    private EditText tag4EditText;
     private MaterialButton registerButton;
     private MultiAutoCompleteTextView tagsMultiAutoCompleteTextView;
 
@@ -135,25 +128,29 @@ public class RegisterFragment extends Fragment {
         cityEditText = view.findViewById(R.id.register_city_edit_text);
         countryEditText = view.findViewById(R.id.register_country_edit_text);
         bioEditText = view.findViewById(R.id.register_bio_edit_text);
-        //tag1EditText = view.findViewById(R.id.register_tag_1);
-        //tag2EditText = view.findViewById(R.id.register_tag_2);
-        //tag3EditText = view.findViewById(R.id.register_tag_3);
-        //tag4EditText = view.findViewById(R.id.register_tag_4);
         registerButton = view.findViewById(R.id.register_button);
         tagsMultiAutoCompleteTextView = view.findViewById(R.id.tags_multi_auto_complete_text_view);
     }
 
     private void setupButtonsListeners() {
         registerButton.setOnClickListener(v -> {
-            User user = createUser();
-            registerUser(user);
+            if (!areRegistrationNecessaryFieldsEmpty()) {
+                User user = createUser();
+                registerUser(user);
+            }
+            else
+                Toast.makeText(getContext(), "Mandatory fields cannot be empty", Toast.LENGTH_SHORT)
+                        .show();
         });
+    }
+
+    private boolean areRegistrationNecessaryFieldsEmpty() {
+        return (emailEditText.getText().toString().isEmpty() || passwordEditText.getText().toString().isEmpty() || firstNameEditText.getText().toString().isEmpty() || lastNameEditText.getText().toString().isEmpty());
     }
 
     private User createUser() {
         User user = new User();
-        //user.setEmail(emailEditText.getText().toString());
-        user.setEmail(String.valueOf(new Random().nextInt(100000000)) + "@gmail.com");
+        user.setEmail(emailEditText.getText().toString());
         user.setPassword(passwordEditText.getText().toString());
         user.setFirstName(firstNameEditText.getText().toString());
         user.setLastName(lastNameEditText.getText().toString());

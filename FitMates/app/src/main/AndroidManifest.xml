@@ -13,15 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.MainActivity"></activity>
-        <activity android:name=".activities.AuthorizationActivity">
+        <activity android:name=".activity.SplashActivity"
+            android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.AuthorizationActivity" />
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>
