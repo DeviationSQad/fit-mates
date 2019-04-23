@@ -1,6 +1,7 @@
 import React from "react";
-const Img = ({ src }) => {
-  return <img src={src} alt="" />;
+import { ImgStyled } from "../assets/styles/HomeStyledComponents";
+const Img = () => {
+  return <ImgStyled />;
 };
 
 export default Img;

@@ -1,5 +1,5 @@
 import React from "react";
-import { ClaimStyled } from "../assets/styles/home/ClaimStyled";
+import { ClaimStyled } from "../assets/styles/HomeStyledComponents";
 const Claim = () => {
   return (
     <ClaimStyled>

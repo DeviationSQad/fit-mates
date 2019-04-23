@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import Container from "../layout/Container";
 import Claim from "../components/Claim";
 import SignUpBtn from "../components/SignUpBtn";
 import LearnMoreBtn from "../components/LearnMoreBtn";
 import Overlay from "../components/Overlay";
 import Img from "../components/Img";
 import MainNavbar from "../components/MainNavbar";
-import homeBackground from "../assets/images/activity-adults-athletes-1855269.jpg";
 import { connect } from "react-redux";
 import { checkIfLogged } from "../actions/userActions";
-import { HomeStyled } from "../assets/styles/home/HomeStyled";
+import { HomeStyled, HomeWrapper } from "../assets/styles/HomeStyledComponents";
+
 class Home extends Component {
   componentDidMount() {
     if (localStorage.getItem("user")) {
@@ -23,14 +22,14 @@ class Home extends Component {
       <div>
         <MainNavbar />
         <HomeStyled>
-          <div>
+          <HomeWrapper>
             <Claim />
             <SignUpBtn />
             <LearnMoreBtn />
-          </div>
+          </HomeWrapper>
           <div>
             <Overlay>
-              <Img src={homeBackground} />
+              <Img />
             </Overlay>
           </div>
         </HomeStyled>

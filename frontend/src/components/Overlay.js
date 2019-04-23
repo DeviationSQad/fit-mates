@@ -1,6 +1,7 @@
 import React from "react";
-const Overlay = () => {
-  return <div />;
+import { OverlayStyled } from "../assets/styles/HomeStyledComponents";
+const Overlay = ({ children }) => {
+  return <OverlayStyled>{children}</OverlayStyled>;
 };
 
 export default Overlay;

@@ -1,6 +1,7 @@
 import React from "react";
+import { LearnMoreBtnStyled } from "../assets/styles/HomeStyledComponents";
 const LearnMoreBtn = () => {
-  return <button>Learn more</button>;
+  return <LearnMoreBtnStyled>Learn more</LearnMoreBtnStyled>;
 };
 
 export default LearnMoreBtn;
