@@ -1,8 +1,15 @@
 import React, { Component } from "react";
-import { Jumbotron, Container } from "reactstrap";
+import Container from "../layout/Container";
+import Claim from "../components/Claim";
+import SignUpBtn from "../components/SignUpBtn";
+import LearnMoreBtn from "../components/LearnMoreBtn";
+import Overlay from "../components/Overlay";
+import Img from "../components/Img";
 import MainNavbar from "../components/MainNavbar";
+import homeBackground from "../assets/images/activity-adults-athletes-1855269.jpg";
 import { connect } from "react-redux";
 import { checkIfLogged } from "../actions/userActions";
+import { HomeStyled } from "../assets/styles/home/HomeStyled";
 class Home extends Component {
   componentDidMount() {
     if (localStorage.getItem("user")) {
@@ -15,12 +22,18 @@ class Home extends Component {
     return (
       <div>
         <MainNavbar />
-        <Jumbotron fluid>
-          <Container fluid>
-            <h1 className="display-3">FitMates</h1>
-            <p className="lead">Love your workout</p>
-          </Container>
-        </Jumbotron>
+        <HomeStyled>
+          <div>
+            <Claim />
+            <SignUpBtn />
+            <LearnMoreBtn />
+          </div>
+          <div>
+            <Overlay>
+              <Img src={homeBackground} />
+            </Overlay>
+          </div>
+        </HomeStyled>
       </div>
     );
   }

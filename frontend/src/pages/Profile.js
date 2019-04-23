@@ -9,8 +9,7 @@ import {
   CardTitle,
   Button,
   Row,
-  Col,
-  Container
+  Col
 } from "reactstrap";
 import Logo from "../components/Logo";
 import NavMenu from "../components/NavMenu";

@@ -7,12 +7,14 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import { BrowserRouter, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { theme } from "./utils/theme";
+import { theme } from "./assets/styles/theme";
+import GlobalStyle from "./assets/styles/GlobalStyles";
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <GlobalStyle />
         <ThemeProvider theme={theme}>
           <div className="App">
             <BrowserRouter>

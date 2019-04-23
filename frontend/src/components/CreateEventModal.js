@@ -140,7 +140,7 @@ class CreateEventModal extends Component {
             <FormGroup>
               <Label htmlFor="event_date">Event date</Label>
               <Input
-                type="text"
+                type="date"
                 id="event_date"
                 name="event_date"
                 onChange={e => {
