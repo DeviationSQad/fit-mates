@@ -2,6 +2,8 @@ package pl.deviationsquad.fitmates.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class User {
 
     private int id;

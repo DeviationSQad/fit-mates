@@ -76,5 +76,6 @@ class ReturnEventsOfUser(viewsets.ViewSet):
 
 
 class UserJoinToEvent(viewsets.ModelViewSet):
+    # Adding or changing taking part by user,
     queryset = EventsOfUser.objects.all()
     serializer_class = UserJoinToEventSerializer

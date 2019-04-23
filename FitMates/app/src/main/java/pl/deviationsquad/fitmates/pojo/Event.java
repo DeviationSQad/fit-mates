@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Event {
 
+    private int id;
     private String title;
     @SerializedName("creator")
     private int creatorId;
@@ -24,6 +25,19 @@ public class Event {
     }
 
     public Event(String title, int creatorId, String date, String placeName, String address, String city, String country, int tagId, int maxAmountOfPeople) {
+        this.title = title;
+        this.creatorId = creatorId;
+        this.date = date;
+        this.placeName = placeName;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.tagId = tagId;
+        this.maxAmountOfPeople = maxAmountOfPeople;
+    }
+
+    public Event(int id, String title, int creatorId, String date, String placeName, String address, String city, String country, int tagId, int maxAmountOfPeople) {
+        this.id = id;
         this.title = title;
         this.creatorId = creatorId;
         this.date = date;
@@ -105,5 +119,13 @@ public class Event {
 
     public void setMaxAmountOfPeople(int maxAmountOfPeople) {
         this.maxAmountOfPeople = maxAmountOfPeople;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

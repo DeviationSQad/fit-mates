@@ -1,15 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SearchForEventsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    tools:context=".fragment.SearchForEventsFragment">
 
-    <TextView
+    <com.yuyakaido.android.cardstackview.CardStackView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Search for events"
-        android:textSize="48sp"/>
+        android:layout_height="0dp"
+        android:id="@+id/card_stack_view"
+        android:layout_weight="6"
+        android:clipToPadding="false"
+        android:translationZ="1dp"
+        android:paddingTop="64dp"
+        android:paddingBottom="64dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"/>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipChildren="false">
+
+        <android.support.design.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/left_image_button"
+            app:icon="@drawable/cross_icon"
+            android:layout_margin="8dp"
+            android:text="Dismiss"
+            android:layout_weight="1" />
+
+        <android.support.design.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/right_image_button"
+            app:icon="@drawable/check_icon"
+            android:layout_margin="8dp"
+            android:text="Join"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</LinearLayout>

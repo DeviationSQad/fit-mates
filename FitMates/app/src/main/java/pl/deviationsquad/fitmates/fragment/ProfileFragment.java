@@ -1,9 +1,11 @@
-package pl.deviationsquad.fitmates.fragments;
+package pl.deviationsquad.fitmates.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +14,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import pl.deviationsquad.fitmates.R;
+import pl.deviationsquad.fitmates.adapter.JoinedEventsRecyclerAdapter;
+import pl.deviationsquad.fitmates.pojo.Event;
 import pl.deviationsquad.fitmates.pojo.User;
+import pl.deviationsquad.fitmates.retrofit.FitMatesService;
+import pl.deviationsquad.fitmates.retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +51,10 @@ public class ProfileFragment extends Fragment {
     private TextView userCityTextView;
     private MaterialButton historyEventsButton;
     private MaterialButton createdEventsButton;
-    private RecyclerView historyEventsRecyclerView;
-    private RecyclerView createdEventsrecyclerView;
+    private RecyclerView createdEventsRecyclerView;
+    private RecyclerView joinedEventsRecyclerView;
+    private JoinedEventsRecyclerAdapter joinedEventsRecyclerAdapter;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -107,22 +120,22 @@ public class ProfileFragment extends Fragment {
         userCityTextView = view.findViewById(R.id.user_city_text_view);
         historyEventsButton = view.findViewById(R.id.user_history_events_button);
         createdEventsButton = view.findViewById(R.id.user_created_events_button);
-        historyEventsRecyclerView = view.findViewById(R.id.user_history_events_recycler_view);
-        createdEventsrecyclerView = view.findViewById(R.id.user_created_events_recycler_view);
+        joinedEventsRecyclerView = view.findViewById(R.id.user_history_events_recycler_view);
+        createdEventsRecyclerView = view.findViewById(R.id.user_created_events_recycler_view);
     }
 
     private void setupButtonsListeners() {
         historyEventsButton.setOnClickListener(v -> {
             Log.i("fit", "history events recycler button clicked");
-            int visibility = historyEventsRecyclerView.getVisibility();
-            historyEventsRecyclerView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            int visibility = joinedEventsRecyclerView.getVisibility();
+            joinedEventsRecyclerView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
             Log.i("fit", "visibility " + visibility);
         });
 
         createdEventsButton.setOnClickListener(v -> {
             Log.i("fit", "created events recycler button clicked");
-            int visibility = createdEventsrecyclerView.getVisibility();
-            createdEventsrecyclerView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            int visibility = createdEventsRecyclerView.getVisibility();
+            createdEventsRecyclerView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
             Log.i("fit", "visibility " + visibility);
         });
     }
@@ -130,6 +143,54 @@ public class ProfileFragment extends Fragment {
     private void initUser(User user) {
         userNameTextView.setText(user.getFirstName() + " " + user.getLastName());
         userCityTextView.setText(user.getProfile().getCity());
+    }
+
+    public void initRecyclerView() {
+        joinedEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        joinedEventsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        FitMatesService service = RetrofitClient.createService(FitMatesService.class);
+        Call<ArrayList<Event>> call = service.getAllUserEvents(listener.getUser().getId());
+        call.enqueue(new Callback<ArrayList<Event>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Event>> call, Response<ArrayList<Event>> response) {
+                if (response.isSuccessful()) {
+                    Log.i("fit", "all user events get");
+                    ArrayList<Event> joinedEvents = listener.getUserJoinedEvents();
+                    joinedEvents = response.body();
+                    joinedEventsRecyclerAdapter = new JoinedEventsRecyclerAdapter(listener.getUserJoinedEvents());
+                    joinedEventsRecyclerView.setAdapter(joinedEventsRecyclerAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Event>> call, Throwable throwable) {
+                Log.i("fit", throwable.getMessage());
+            }
+        });
+    }
+
+    public void eventJoined() {
+        Log.i("fit", "event joined notify");
+        FitMatesService service = RetrofitClient.createService(FitMatesService.class);
+        Call<ArrayList<Event>> call = service.getAllUserEvents(listener.getUser().getId());
+        call.enqueue(new Callback<ArrayList<Event>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Event>> call, Response<ArrayList<Event>> response) {
+                if (response.isSuccessful()) {
+                    Log.i("fit", "new data set");
+                    ArrayList<Event> joinedEvents = listener.getUserJoinedEvents();
+                    joinedEvents = response.body();
+                    Log.i("fit", "joined item size: " + String.valueOf(joinedEvents.size()));
+                    joinedEventsRecyclerAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Event>> call, Throwable throwable) {
+                Log.i("fit", throwable.getMessage());
+            }
+        });
     }
 
     /**
@@ -144,5 +205,6 @@ public class ProfileFragment extends Fragment {
      */
     public interface ProfileFragmentListener {
         User getUser();
+        ArrayList<Event> getUserJoinedEvents();
     }
 }

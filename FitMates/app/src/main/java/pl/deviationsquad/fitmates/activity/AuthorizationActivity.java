@@ -1,4 +1,4 @@
-package pl.deviationsquad.fitmates.activities;
+package pl.deviationsquad.fitmates.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,9 +20,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import pl.deviationsquad.fitmates.R;
-import pl.deviationsquad.fitmates.fragments.AuthorizationChoiceFragment;
-import pl.deviationsquad.fitmates.fragments.LoginFragment;
-import pl.deviationsquad.fitmates.fragments.RegisterFragment;
+import pl.deviationsquad.fitmates.fragment.AuthorizationChoiceFragment;
+import pl.deviationsquad.fitmates.fragment.LoginFragment;
+import pl.deviationsquad.fitmates.fragment.RegisterFragment;
 import pl.deviationsquad.fitmates.pojo.Tag;
 import pl.deviationsquad.fitmates.pojo.User;
 import pl.deviationsquad.fitmates.retrofit.FitMatesService;
@@ -107,10 +107,6 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
     }
 
     public void saveUserTagsAndOpenMainPage(User user) {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Logging...");
-        progressDialog.show();
-
         FitMatesService service = RetrofitClient.createService(FitMatesService.class);
         Call<ArrayList<Tag>> call = service.getAllTags();
         call.enqueue(new Callback<ArrayList<Tag>>() {
@@ -125,13 +121,11 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
                 }
                 else
                     Log.i("fit", "tags not get");
-                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<ArrayList<Tag>> call, Throwable throwable) {
                 Log.i("fit", throwable.getMessage());
-                progressDialog.dismiss();
             }
         });
     }

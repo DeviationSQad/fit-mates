@@ -5,20 +5,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".fragment.ProfileFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:background="@android:color/darker_gray">
+        android:background="@color/lightGray">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/profile_photo_image_view"
-            android:src="@drawable/ic_launcher_foreground"
-            android:layout_margin="32dp"
+            android:src="@drawable/profile_photo"
+            android:scaleType="centerCrop"
             android:layout_centerHorizontal="true"
             android:background="@color/colorAccent"/>
 
@@ -28,7 +27,8 @@
             android:id="@+id/user_info_card_view"
             android:layout_below="@id/profile_photo_image_view"
             app:contentPadding="8dp"
-            android:layout_marginBottom="32dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="8dp"
             app:cardCornerRadius="24dp">
 
             <LinearLayout
@@ -61,7 +61,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/user_history_events_card_view"
             app:contentPadding="16dp"
-            android:layout_marginBottom="32dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
             android:layout_below="@id/user_info_card_view">
 
             <android.support.design.button.MaterialButton
@@ -73,9 +75,9 @@
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/user_history_events_recycler_view"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </android.support.design.card.MaterialCardView>
 
@@ -84,11 +86,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/user_created_events_card_view"
             app:contentPadding="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="8dp"
             android:layout_below="@id/user_history_events_card_view">
 
             <android.support.design.button.MaterialButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/user_created_events_button"
                 android:text="Created events"
                 app:icon="@drawable/drop_down_arrow"/>

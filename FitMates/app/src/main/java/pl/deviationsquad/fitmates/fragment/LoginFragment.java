@@ -1,5 +1,6 @@
-package pl.deviationsquad.fitmates.fragments;
+package pl.deviationsquad.fitmates.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
@@ -13,11 +14,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import okhttp3.Credentials;
 import pl.deviationsquad.fitmates.R;
-import pl.deviationsquad.fitmates.pojo.Tag;
 import pl.deviationsquad.fitmates.pojo.User;
 import pl.deviationsquad.fitmates.retrofit.FitMatesService;
 import pl.deviationsquad.fitmates.retrofit.RetrofitClient;
@@ -113,12 +111,23 @@ public class LoginFragment extends Fragment {
 
     private void setupButtonsListeners() {
         loginButton.setOnClickListener(v -> {
-            loginUser();
+            if (!areLoggingFieldsEmpty())
+                loginUser();
+            else
+                Toast.makeText(getContext(), "Fields cannot be empty", Toast.LENGTH_SHORT)
+                        .show();
         });
     }
 
+    private boolean areLoggingFieldsEmpty() {
+        return emailEditText.getText().toString().isEmpty() || passwordEditText.getText().toString().isEmpty();
+    }
+
     private void loginUser() {
-        //listener.openMainPage();
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Logging...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         FitMatesService service = RetrofitClient.createService(FitMatesService.class);
         String auth = Credentials.basic(emailEditText.getText().toString(), passwordEditText.getText().toString());
@@ -132,6 +141,7 @@ public class LoginFragment extends Fragment {
                             .show();
                     listener.saveUser(response.body());
                     listener.saveUserTagsAndOpenMainPage(response.body());
+
                     //listener.openMainPage();
                     Log.i("fit", new Gson().toJson(response.body()));
                 }
@@ -139,12 +149,14 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Logging failed", Toast.LENGTH_SHORT)
                             .show();
                 }
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable throwable) {
                 Log.i("fit", throwable.getMessage());
                 call.cancel();
+                progressDialog.dismiss();
             }
         });
 

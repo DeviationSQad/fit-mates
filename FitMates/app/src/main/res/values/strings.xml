@@ -4,4 +4,5 @@
     <string name="shared_preferences_key">shared_preferences_key</string>
     <string name="user_shared_preferences_key">user_key</string>
     <string name="user_tags_shared_preferences_key">user_tags</string>
+    <string name="user_joined_events_shared_preferences_key">user_joined_events</string>
 </resources>
