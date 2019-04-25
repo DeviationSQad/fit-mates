@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import posed from "react-pose";
 
 export const NavStyled = styled.nav`
@@ -43,6 +43,7 @@ export const MenuStyled = styled.ul`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  list-style: none;
 `;
 
 export const MenuWrapper = styled.div`
@@ -81,4 +82,17 @@ export const Line = styled.span`
   ::before {
     top: 1rem;
   }
+`;
+
+export const MenuItemStyled = styled.li`
+  background-color: ${({ theme }) => theme.colors.secondary};
+  padding: 0.6rem 0;
+  text-align: center;
+  width: 15rem;
+`;
+
+export const MenuLinkStyled = styled(NavLink)`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  font-weight: 300;
 `;

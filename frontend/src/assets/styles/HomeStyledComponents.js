@@ -7,10 +7,11 @@ export const ClaimStyled = styled.p`
   color: ${({ theme }) => theme.colors.primary};
   font-weight: 300;
   max-width: 65rem;
-  margin-top: 18rem;
+  margin-top: 30rem;
 `;
 export const HomeStyled = styled.div`
   width: 100vw;
+  height: 100vh;
   display: grid;
   grid-template-columns: 2fr 1fr;
 `;
@@ -91,7 +92,7 @@ export const LearnMoreWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10rem auto 0 auto;
+  margin: 16rem auto 0 auto;
 `;
 
 // animations

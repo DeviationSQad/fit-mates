@@ -7,7 +7,9 @@ import {
   Line,
   LogoStyled,
   LogoText,
-  LogoSpanStyled
+  LogoSpanStyled,
+  MenuItemStyled,
+  MenuLinkStyled
 } from "../assets/styles/NavStyledComponents";
 import { NavLink } from "react-router-dom";
 class MainNavbar extends Component {
@@ -25,15 +27,15 @@ class MainNavbar extends Component {
             <Line />
           </HamburgerBtn>
           <MenuStyled>
-            <li>
-              <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Register</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Login</NavLink>
-            </li>
+            <MenuItemStyled>
+              <MenuLinkStyled to="/">Home</MenuLinkStyled>
+            </MenuItemStyled>
+            <MenuItemStyled>
+              <MenuLinkStyled to="/register">Register</MenuLinkStyled>
+            </MenuItemStyled>
+            <MenuItemStyled>
+              <MenuLinkStyled to="/login">Login</MenuLinkStyled>
+            </MenuItemStyled>
           </MenuStyled>
         </MenuWrapper>
       </NavStyled>
