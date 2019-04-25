@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { ReactComponent as Arrow } from "../icons/arrow-right.svg";
 import homeBackground from "../images/activity-adults-athletes-1855269.jpg";
+import posed from "react-pose";
 export const ClaimStyled = styled.p`
   font-size: ${({ theme }) => theme.font.size.m};
   color: ${({ theme }) => theme.colors.primary};
@@ -24,7 +26,7 @@ export const LearnMoreBtnStyled = styled.button`
   font-size: ${({ theme }) => theme.font.size.xs};
   padding: 0.7rem 1.6rem;
   width: 15rem;
-  margin: 10rem auto 0 auto;
+  margin: 0 auto;
 `;
 export const SignUpBtnStyled = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.secondary};
@@ -78,3 +80,30 @@ export const ImgStyled = styled.div`
   background-size: cover;
   background-position: center;
 `;
+
+export const ArrowDownStyled = styled(Arrow)`
+  transform: rotate(90deg);
+`;
+
+export const LearnMoreWrapper = styled.div`
+  display: flex;
+  width: 15rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10rem auto 0 auto;
+`;
+
+// animations
+
+export const ClaimAnimated = posed(ClaimStyled)({
+  unmounted: {
+    x: "-50%",
+    opacity: 0
+  },
+  mounted: {
+    x: "0",
+    opacity: 1,
+    delay: 500
+  }
+});

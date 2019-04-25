@@ -1,7 +1,17 @@
 import React from "react";
-import { LearnMoreBtnStyled } from "../assets/styles/HomeStyledComponents";
+import {
+  LearnMoreBtnStyled,
+  ArrowDownStyled,
+  LearnMoreWrapper
+} from "../assets/styles/HomeStyledComponents";
+
 const LearnMoreBtn = () => {
-  return <LearnMoreBtnStyled>Learn more</LearnMoreBtnStyled>;
+  return (
+    <LearnMoreWrapper>
+      <ArrowDownStyled />
+      <LearnMoreBtnStyled>Learn more</LearnMoreBtnStyled>
+    </LearnMoreWrapper>
+  );
 };
 
 export default LearnMoreBtn;
