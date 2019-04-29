@@ -40,10 +40,19 @@ export const LogoSpanStyled = styled.span`
   font-size: ${({ theme }) => theme.font.size.xs};
 `;
 export const MenuStyled = styled.ul`
-  width: 100%;
+  width: 34vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-around;
   list-style: none;
+  padding: 0;
+  background: ${({ theme }) => theme.colors.secondary};
+  transform: translateX(${({ open }) => (open ? "0" : "100%")});
+  transition: transform 0.25s ease-in-out;
 `;
 
 export const MenuWrapper = styled.div`
@@ -54,11 +63,11 @@ export const MenuWrapper = styled.div`
 `;
 export const HamburgerBtn = styled.button`
   position: absolute;
+  z-index: 9999;
   width: 5rem;
   height: 5rem;
   background: none;
   border: 0;
-  display: none;
 `;
 
 export const Line = styled.span`
@@ -85,14 +94,26 @@ export const Line = styled.span`
 `;
 
 export const MenuItemStyled = styled.li`
-  background-color: ${({ theme }) => theme.colors.secondary};
-  padding: 0.6rem 0;
   text-align: center;
-  width: 15rem;
+  width: 20rem;
 `;
 
-export const MenuLinkStyled = styled(NavLink)`
+export const MenuNavLinkStyled = styled(NavLink)`
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  font-size: ${({ theme }) => theme.font.size.s};
   font-weight: 300;
+  :hover {
+    color: white;
+    text-decoration: none;
+  }
+`;
+
+export const MenuLinkStyled = styled.a`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.font.size.s};
+  font-weight: 300;
+  :hover {
+    color: white;
+    text-decoration: none;
+  }
 `;

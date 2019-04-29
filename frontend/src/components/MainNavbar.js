@@ -9,10 +9,17 @@ import {
   LogoText,
   LogoSpanStyled,
   MenuItemStyled,
+  MenuNavLinkStyled,
   MenuLinkStyled
 } from "../assets/styles/NavStyledComponents";
-import { NavLink } from "react-router-dom";
 class MainNavbar extends Component {
+  state = {
+    isOpen: false
+  };
+
+  toggleMenu = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
   render() {
     return (
       <NavStyled>
@@ -23,18 +30,24 @@ class MainNavbar extends Component {
         </LogoStyled>
 
         <MenuWrapper>
-          <HamburgerBtn>
+          <HamburgerBtn onClick={this.toggleMenu}>
             <Line />
           </HamburgerBtn>
-          <MenuStyled>
+          <MenuStyled open={this.state.isOpen}>
             <MenuItemStyled>
-              <MenuLinkStyled to="/">Home</MenuLinkStyled>
+              <MenuLinkStyled href="/">Home</MenuLinkStyled>
             </MenuItemStyled>
             <MenuItemStyled>
-              <MenuLinkStyled to="/register">Register</MenuLinkStyled>
+              <MenuLinkStyled href="#about">About us</MenuLinkStyled>
             </MenuItemStyled>
             <MenuItemStyled>
-              <MenuLinkStyled to="/login">Login</MenuLinkStyled>
+              <MenuLinkStyled href="#contact">Contact</MenuLinkStyled>
+            </MenuItemStyled>
+            <MenuItemStyled>
+              <MenuNavLinkStyled to="/register">Register</MenuNavLinkStyled>
+            </MenuItemStyled>
+            <MenuItemStyled>
+              <MenuNavLinkStyled to="/login">Login</MenuNavLinkStyled>
             </MenuItemStyled>
           </MenuStyled>
         </MenuWrapper>
