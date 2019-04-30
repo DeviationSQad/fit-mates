@@ -21,6 +21,7 @@ class MainNavbar extends Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
   render() {
+    const { isOpen } = this.state;
     return (
       <NavStyled>
         <LogoStyled to="/">
@@ -31,17 +32,11 @@ class MainNavbar extends Component {
 
         <MenuWrapper>
           <HamburgerBtn onClick={this.toggleMenu}>
-            <Line />
+            <Line open={isOpen} />
           </HamburgerBtn>
-          <MenuStyled open={this.state.isOpen}>
+          <MenuStyled open={isOpen}>
             <MenuItemStyled>
-              <MenuLinkStyled href="/">Home</MenuLinkStyled>
-            </MenuItemStyled>
-            <MenuItemStyled>
-              <MenuLinkStyled href="#about">About us</MenuLinkStyled>
-            </MenuItemStyled>
-            <MenuItemStyled>
-              <MenuLinkStyled href="#contact">Contact</MenuLinkStyled>
+              <MenuNavLinkStyled to="/">Home</MenuNavLinkStyled>
             </MenuItemStyled>
             <MenuItemStyled>
               <MenuNavLinkStyled to="/register">Register</MenuNavLinkStyled>

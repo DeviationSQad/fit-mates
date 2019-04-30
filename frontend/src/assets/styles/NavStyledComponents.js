@@ -8,7 +8,7 @@ export const NavStyled = styled.nav`
   top: 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   z-index: 999;
   padding: 2.3rem 8rem;
 `;
@@ -73,9 +73,11 @@ export const HamburgerBtn = styled.button`
 export const Line = styled.span`
   width: 100%;
   height: 2px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme, open }) =>
+    open ? "transparent" : theme.colors.white};
   display: block;
   position: relative;
+  transition: background-color 0.25s ease-in;
   ::after,
   ::before {
     content: "";
@@ -84,12 +86,17 @@ export const Line = styled.span`
     width: 100%;
     height: 2px;
     background-color: ${({ theme }) => theme.colors.white};
+    transition: transform 0.25s ease-in;
   }
   ::after {
     bottom: 1rem;
+    transform: translateY(${({ open }) => (open ? "1rem" : "0")})
+      rotate(${({ open }) => (open ? "45deg" : "0")});
   }
   ::before {
     top: 1rem;
+    transform: translateY(${({ open }) => (open ? "-1rem" : "0")})
+      rotate(${({ open }) => (open ? "-45deg" : "0")});
   }
 `;
 
