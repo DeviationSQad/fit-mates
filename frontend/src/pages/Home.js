@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import Claim from "../components/Claim";
-import SignUpBtn from "../components/SignUpBtn";
-import LearnMoreBtn from "../components/LearnMoreBtn";
-import Overlay from "../components/Overlay";
-import Img from "../components/Img";
-import MainNavbar from "../components/MainNavbar";
+import MainNavbar from "../templates/MainNavbar";
+import Header from "../templates/Header";
+import About from "../templates/About";
+
 import { connect } from "react-redux";
 import { checkIfLogged } from "../actions/userActions";
-import { HomeStyled, HomeWrapper } from "../assets/styles/HomeStyledComponents";
 
 class Home extends Component {
   componentDidMount() {
@@ -21,18 +18,8 @@ class Home extends Component {
     return (
       <div>
         <MainNavbar />
-        <HomeStyled>
-          <HomeWrapper>
-            <Claim />
-            <SignUpBtn />
-            <LearnMoreBtn />
-          </HomeWrapper>
-          <div>
-            <Overlay>
-              <Img />
-            </Overlay>
-          </div>
-        </HomeStyled>
+        <Header />
+        <About />
       </div>
     );
   }

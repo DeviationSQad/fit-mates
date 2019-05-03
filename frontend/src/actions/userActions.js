@@ -11,7 +11,7 @@ import axios from "axios";
 export const addUser = user => dispatch => {
   dispatch({ type: USER_LOADING });
   axios
-    .post(`http://192.168.43.131:8080/api/users/`, user)
+    .post(`http://fitmates.pythonanywhere.com/api/users/`, user)
     .then(res => {
       dispatch({
         type: ADD_USER,
@@ -25,7 +25,7 @@ export const addUser = user => dispatch => {
 export const logInUser = (email, password) => dispatch => {
   dispatch({ type: USER_LOADING });
   axios
-    .get("http://192.168.43.131:8080/api/auth/user/", {
+    .get("http://fitmates.pythonanywhere.com/api/auth/user/", {
       auth: {
         username: email,
         password: password
@@ -43,7 +43,7 @@ export const logInUser = (email, password) => dispatch => {
 
 export const getTags = () => dispatch => {
   axios
-    .get("http://192.168.43.131:8080/api/tags/")
+    .get("http://fitmates.pythonanywhere.com/api/tags/")
     .then(res => {
       dispatch({
         type: GET_TAGS,

@@ -1,8 +1,8 @@
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
-import posed from "react-pose";
 
-export const NavStyled = styled.nav`
+const NavStyled = styled.nav`
   width: 100vw;
   position: fixed;
   top: 0;
@@ -13,7 +13,7 @@ export const NavStyled = styled.nav`
   padding: 2.3rem 8rem;
 `;
 
-export const LogoStyled = styled(Link)`
+const LogoStyled = styled(Link)`
   width: 8rem;
   height: 8rem;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -24,8 +24,7 @@ export const LogoStyled = styled(Link)`
     text-decoration: none;
   }
 `;
-
-export const LogoText = styled.h2`
+const LogoText = styled.h2`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,11 +34,10 @@ export const LogoText = styled.h2`
   padding: 1.2rem;
   margin: 0;
 `;
-
-export const LogoSpanStyled = styled.span`
+const LogoSpanStyled = styled.span`
   font-size: ${({ theme }) => theme.font.size.xs};
 `;
-export const MenuStyled = styled.ul`
+const MenuStyled = styled.ul`
   width: 34vw;
   height: 100vh;
   position: fixed;
@@ -55,22 +53,14 @@ export const MenuStyled = styled.ul`
   transition: transform 0.25s ease-in-out;
 `;
 
-export const MenuWrapper = styled.div`
+const MenuWrapper = styled.div`
   width: 33%;
   display: flex;
   justify-content: flex-end;
   position: relative;
 `;
-export const HamburgerBtn = styled.button`
-  position: absolute;
-  z-index: 9999;
-  width: 5rem;
-  height: 5rem;
-  background: none;
-  border: 0;
-`;
 
-export const Line = styled.span`
+const Line = styled.span`
   width: 100%;
   height: 2px;
   background-color: ${({ theme, open }) =>
@@ -100,27 +90,66 @@ export const Line = styled.span`
   }
 `;
 
-export const MenuItemStyled = styled.li`
+const MenuItemStyled = styled.li`
   text-align: center;
   width: 20rem;
 `;
-
-export const MenuNavLinkStyled = styled(NavLink)`
+const MenuNavLinkStyled = styled(NavLink)`
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.font.size.s};
   font-weight: 300;
+
   :hover {
     color: white;
     text-decoration: none;
   }
 `;
 
-export const MenuLinkStyled = styled.a`
-  color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.font.size.s};
-  font-weight: 300;
-  :hover {
-    color: white;
-    text-decoration: none;
-  }
+const HamburgerBtn = styled.button`
+  position: absolute;
+  z-index: 9999;
+  width: 5rem;
+  height: 5rem;
+  background: none;
+  border: 0;
 `;
+class MainNavbar extends Component {
+  state = {
+    isOpen: false
+  };
+
+  toggleMenu = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+  render() {
+    const { isOpen } = this.state;
+    return (
+      <NavStyled>
+        <LogoStyled to="/">
+          <LogoText>
+            Fit<LogoSpanStyled>mates</LogoSpanStyled>
+          </LogoText>
+        </LogoStyled>
+
+        <MenuWrapper>
+          <HamburgerBtn onClick={this.toggleMenu}>
+            <Line open={isOpen} />
+          </HamburgerBtn>
+          <MenuStyled open={isOpen}>
+            <MenuItemStyled>
+              <MenuNavLinkStyled to="/">Home</MenuNavLinkStyled>
+            </MenuItemStyled>
+            <MenuItemStyled>
+              <MenuNavLinkStyled to="/register">Register</MenuNavLinkStyled>
+            </MenuItemStyled>
+            <MenuItemStyled>
+              <MenuNavLinkStyled to="/login">Login</MenuNavLinkStyled>
+            </MenuItemStyled>
+          </MenuStyled>
+        </MenuWrapper>
+      </NavStyled>
+    );
+  }
+}
+
+export default MainNavbar;

@@ -14,7 +14,6 @@ import {
 import Logo from "../components/Logo";
 import NavMenu from "../components/NavMenu";
 import NavLink from "../components/NavLink";
-import Wrapper from "../components/Wrapper";
 import ProfileInfo from "../components/ProfileInfo";
 import CreateEventModal from "../components/CreateEventModal";
 import { connect } from "react-redux";
@@ -90,33 +89,32 @@ class Profile extends Component {
             </NavMenu>
           </Nav>
         </Navbar>
-        <Wrapper>
-          <CreateEventModal
-            isOpen={this.state.modal}
-            toggle={this.toggleModal}
-            tags={tags}
-          />
-          {this.state.show ? (
-            this.state.events.map(event => (
-              <Row key={event.id}>
-                <Col>
-                  <Card>
-                    <CardBody>
-                      <CardTitle>{event.title}</CardTitle>
-                      <CardText>
-                        Where? {event.address} {event.city}, {event.country}
-                      </CardText>
-                      <CardText>When? {event.event_date}</CardText>
-                      <Button>Join!</Button>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-            ))
-          ) : (
-            <ProfileInfo userInfo={userInfo} />
-          )}
-        </Wrapper>
+
+        <CreateEventModal
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
+          tags={tags}
+        />
+        {this.state.show ? (
+          this.state.events.map(event => (
+            <Row key={event.id}>
+              <Col>
+                <Card>
+                  <CardBody>
+                    <CardTitle>{event.title}</CardTitle>
+                    <CardText>
+                      Where? {event.address} {event.city}, {event.country}
+                    </CardText>
+                    <CardText>When? {event.event_date}</CardText>
+                    <Button>Join!</Button>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          ))
+        ) : (
+          <ProfileInfo userInfo={userInfo} />
+        )}
       </>
     );
   }

@@ -1,6 +1,26 @@
 import React, { Component } from "react";
-import { ClaimAnimated } from "../assets/styles/HomeStyledComponents";
 
+import posed from "react-pose";
+import styled from "styled-components";
+const ClaimStyled = styled.p`
+  font-size: ${({ theme }) => theme.font.size.m};
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: 300;
+  max-width: 65rem;
+  margin-top: 25rem;
+  margin-bottom: 2.2rem;
+`;
+const ClaimAnimated = posed(ClaimStyled)({
+  unmounted: {
+    x: "-50%",
+    opacity: 0
+  },
+  mounted: {
+    x: "0",
+    opacity: 1,
+    delay: 500
+  }
+});
 class Claim extends Component {
   state = {
     isEntered: false

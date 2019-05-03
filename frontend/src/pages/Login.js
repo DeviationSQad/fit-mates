@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Container, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { logInUser, getTags, checkIfLogged } from "../actions/userActions";
-import MainNavbar from "../components/MainNavbar";
+import MainNavbar from "../templates/MainNavbar";
 import { ScaleLoader } from "react-spinners";
 
 class Login extends Component {

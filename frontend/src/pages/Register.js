@@ -3,7 +3,7 @@ import RegisterForm from "../components/RegisterForm";
 import ProfileForm from "../components/ProfileForm";
 import { connect } from "react-redux";
 import { addUser, getTags, checkIfLogged } from "../actions/userActions";
-import MainNavbar from "../components/MainNavbar";
+import MainNavbar from "../templates/MainNavbar";
 import { Button, Container } from "reactstrap";
 import { ScaleLoader } from "react-spinners";
 
