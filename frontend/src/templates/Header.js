@@ -1,39 +1,27 @@
 import React from "react";
 import Claim from "../components/Claim";
-import SignUpBtn from "../components/SignUpBtn";
+import Button from "../components/Button";
 import LearnMoreBtn from "../components/LearnMoreBtn";
 import Overlay from "../components/Overlay";
 import Img from "../components/Img";
-import styled from "styled-components";
-const HeaderStyled = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-`;
-const HeaderWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-left: 8.4rem;
-`;
+import { GridContainer, LeftColumn } from "../assets/styles/LayoutStyles";
+
 const Header = () => {
   return (
-    <HeaderStyled>
-      <HeaderWrapper>
+    <GridContainer>
+      <LeftColumn>
         <div>
           <Claim />
-          <SignUpBtn />
+          <Button>Sign Up!</Button>
         </div>
         <LearnMoreBtn />
-      </HeaderWrapper>
+      </LeftColumn>
       <div>
         <Overlay>
           <Img />
         </Overlay>
       </div>
-    </HeaderStyled>
+    </GridContainer>
   );
 };
 export default Header;

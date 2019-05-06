@@ -1,14 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-const SignUpBtnStyled = styled.button`
-  border: 1px solid ${({ theme }) => theme.colors.secondary};
+const BtnStyled = styled.button`
+  border: 1px solid
+    ${({ theme, secondary }) =>
+      secondary ? theme.colors.white : theme.colors.secondary};
   padding: 0.8rem 1.8rem;
-  width: 20rem;
-  color: ${({ theme }) => theme.colors.secondary};
+  min-width: 20rem;
+  color: ${({ theme, secondary }) =>
+    secondary ? theme.colors.white : theme.colors.secondary};
   font-size: ${({ theme }) => theme.font.size.s};
+  background-color: transparent;
   position: relative;
-  z-index: 999;
+  z-index: 1;
   transition: 0.2s color ease-in-out;
+
   ::after {
     content: "";
     position: absolute;
@@ -31,8 +36,8 @@ const SignUpBtnStyled = styled.button`
     color: ${({ theme }) => theme.colors.white};
   }
 `;
-const SignUpBtn = () => {
-  return <SignUpBtnStyled>Sign Up!</SignUpBtnStyled>;
+const Button = ({ children, secondary }) => {
+  return <BtnStyled secondary={secondary}>{children}</BtnStyled>;
 };
 
-export default SignUpBtn;
+export default Button;

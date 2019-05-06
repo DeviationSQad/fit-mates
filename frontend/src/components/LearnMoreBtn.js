@@ -17,7 +17,7 @@ const LearnMoreWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 5rem auto 0 auto;
+  margin: auto auto 0 auto;
 `;
 const ArrowDownStyled = styled(Arrow)`
   transform: rotate(90deg);
